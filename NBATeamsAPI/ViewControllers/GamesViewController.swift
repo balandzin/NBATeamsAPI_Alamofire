@@ -23,6 +23,7 @@ final class GamesViewController: UITableViewController {
         super.viewDidLoad()
         tableView.rowHeight = 100
         //showSpinner(in: view)
+        //fetchGamesManual()
         fetchGames()
     }
     
@@ -51,17 +52,30 @@ final class GamesViewController: UITableViewController {
 
 // MARK: - Networking
 extension GamesViewController {
+    
     private func fetchGames() {
-        networkManager.fetchGames(from: url) { [unowned self] result in
+        networkManager.fetchData(from: url) { [unowned self] result in
             switch result {
-            case .success(let games):
-                self.gameData = games
+            case .success(let resultData):
+                //games = resultData
                 self.tableView.reloadData()
             case .failure(let error):
-                showAlert(with: "Error", and: error.localizedDescription)
+                print(error.localizedDescription)
             }
         }
     }
+    
+//    private func fetchGamesManual() {
+//        networkManager.fetchGames(from: url) { [unowned self] result in
+//            switch result {
+//            case .success(let games):
+//                self.gameData = games
+//                self.tableView.reloadData()
+//            case .failure(let error):
+//                showAlert(with: "Error", and: error.localizedDescription)
+//            }
+//        }
+//    }
     
     private func showAlert(with title: String, and message: String) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)

@@ -18,14 +18,27 @@ final class NetworkManager {
     
     private init() {}
     
-    func fetchGames(from url: String, completion: @escaping(Result<[Game], AFError>) -> Void) {
+//    func fetchGames(from url: String, completion: @escaping(Result<[Game], AFError>) -> Void) {
+//        AF.request(url)
+//            .validate()
+//            .responseJSON { dataResponse in
+//                switch dataResponse.result {
+//                case .success(let value):
+//                    let gameData = Games.getGames(from: value)
+//                    completion(.success(gameData))
+//                case .failure(let error):
+//                    completion(.failure(error))
+//                }
+//            }
+//    }
+    
+    func fetchData(from url: String, completion: @escaping(Result<Data, Error>) -> Void) {
         AF.request(url)
             .validate()
-            .responseJSON { dataResponse in
+            .responseData { dataResponse in
                 switch dataResponse.result {
-                case .success(let value):
-                    let gameData = Games.getGames(from: value)
-                    completion(.success(gameData))
+                case .success(let data):
+                    completion(.success(data))
                 case .failure(let error):
                     completion(.failure(error))
                 }
